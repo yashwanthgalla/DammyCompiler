@@ -793,6 +793,21 @@
 
 .solver-output--error pre {
   color: var(--ps-danger);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--ps-danger-soft);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border-left: 3px solid var(--ps-danger);
+  margin: 0;
+}
+
+.solver-output--error pre strong {
+  font-weight: 700;
+  color: var(--ps-danger);
 }
 
 .solver-submissions__loading,

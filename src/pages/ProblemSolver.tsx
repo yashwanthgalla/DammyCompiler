@@ -450,8 +450,14 @@ export const ProblemSolver = () => {
     const elapsed = Math.round(performance.now() - startTime)
 
     if (error) {
-      setVerdictResult({ verdict: 'Runtime Error', output: '', error })
-      setConsoleOutput(error)
+      const formattedError = formatErrorWithLineNumber(error)
+      const lineNum = extractLineNumber(error)
+      setVerdictResult({ verdict: 'Compilation/Runtime Error', output: '', error: formattedError })
+      setConsoleOutput(formattedError)
+      // Highlight error line in editor if line number found
+      if (lineNum) {
+        console.log(`Error on line ${lineNum}`)
+      }
       // Store error context for AI analysis (only when user clicks AI tab)
       setErrorContext({ error, errorType: 'runtime' })
     } else {
@@ -475,7 +481,6 @@ export const ProblemSolver = () => {
         })
       }
     }
-    setTesting(false)
     setTesting(false)
   }
 
@@ -1079,7 +1084,30 @@ export const ProblemSolver = () => {
                           <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--ps-red)', marginBottom: '0.3rem' }}>
                             ⚠️ {verdictResult.verdict}
                           </div>
-                          <pre style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem', margin: 0, color: 'var(--ps-red)', whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{verdictResult.error}</pre>
+                          <pre style={{ 
+                            fontFamily: "'JetBrains Mono', monospace", 
+                            fontSize: '0.75rem', 
+                            margin: 0, 
+                            color: 'var(--ps-red)', 
+                            whiteSpace: 'pre-wrap', 
+                            wordWrap: 'break-word',
+                            lineHeight: '1.6'
+                          }}>
+                            {verdictResult.error}
+                          </pre>
+                          {extractLineNumber(verdictResult.error) && (
+                            <div style={{ 
+                              fontSize: '0.7rem', 
+                              marginTop: '0.4rem', 
+                              padding: '0.4rem', 
+                              background: 'rgba(220,53,69,0.2)', 
+                              borderRadius: '3px',
+                              color: 'var(--ps-red)',
+                              fontWeight: 600
+                            }}>
+                              👉 Check line {extractLineNumber(verdictResult.error)} in your code
+                            </div>
+                          )}
                         </div>
                       )}
 
