@@ -1,0 +1,335 @@
+.company-prep-page {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.25rem;
+  color: var(--ink);
+}
+
+.company-prep-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  background: var(--surface);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.company-prep-hero__badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  background: var(--accent-soft);
+  color: var(--ink-secondary);
+}
+
+.company-prep-hero h1 {
+  margin: 0.8rem 0 0.35rem;
+  font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.company-prep-hero p {
+  margin: 0;
+  max-width: 56ch;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.company-prep-hero__stats {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.company-prep-hero__stats article {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem 0.7rem;
+  background: var(--bg);
+}
+
+.company-prep-hero__stats svg {
+  color: var(--ink-tertiary);
+  flex-shrink: 0;
+}
+
+.company-prep-hero__stats strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.company-prep-hero__stats span {
+  display: block;
+  margin-top: 1px;
+  font-size: 0.74rem;
+  color: var(--ink-tertiary);
+}
+
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.company-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.35s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.company-card:hover,
+.company-card:focus-visible {
+  border-color: var(--border-hover);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.company-card--selected {
+  border-color: var(--accent);
+}
+
+.company-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.company-card__logo-wrap {
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  padding: 0.4rem;
+}
+
+.company-card__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.company-card__logo-svg {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-card__logo-svg svg {
+  width: 100%;
+  height: 100%;
+}
+
+.company-card__verified {
+  color: var(--ink-tertiary);
+}
+
+.company-card h3 {
+  margin: 0.75rem 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.company-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--ink-tertiary);
+  font-size: 0.8rem;
+}
+
+.company-card__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--ink-secondary);
+}
+
+.company-card__topics {
+  margin: 0.7rem 0 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.company-card__topics span {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink-secondary);
+  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 0.18rem 0.48rem;
+}
+
+.company-card__cta {
+  width: 100%;
+  height: 36px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.company-card__cta:hover {
+  filter: brightness(1.1);
+}
+
+.roadmap-panel {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 1.15rem;
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.roadmap-panel__header p {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  font-weight: 500;
+}
+
+.roadmap-panel__header h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.roadmap-panel__header span {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--ink-tertiary);
+  font-size: 0.84rem;
+}
+
+.roadmap-grid {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.roadmap-week {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: var(--bg);
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.roadmap-week h3 {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.roadmap-week ul {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.roadmap-week li {
+  position: relative;
+  padding-left: 0.85rem;
+  color: var(--ink-secondary);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.roadmap-week li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--ink-tertiary);
+}
+
+.company-prep-footer-note {
+  font-size: 0.8rem;
+  color: var(--ink-tertiary);
+  text-align: center;
+}
+
+@media (max-width: 1080px) {
+  .company-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roadmap-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .company-prep-page {
+    gap: 0.9rem;
+  }
+
+  .company-prep-hero {
+    padding: 1.1rem;
+  }
+
+  .company-prep-hero__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .company-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-panel {
+    padding: 0.85rem;
+  }
+
+  .roadmap-grid {
+    grid-template-columns: 1fr;
+  }
+}

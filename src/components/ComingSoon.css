@@ -1,0 +1,141 @@
+.coming-soon {
+  min-height: 68vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.coming-soon__icon-wrap {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.coming-soon__icon-shell {
+  width: 84px;
+  height: 84px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  color: var(--text-primary);
+}
+
+.coming-soon__icon {
+  color: var(--text-secondary);
+}
+
+.coming-soon__spark {
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  display: grid;
+  place-items: center;
+}
+
+.coming-soon__content {
+  width: min(560px, 100%);
+}
+
+.coming-soon__badge {
+  width: fit-content;
+  margin: 0 auto 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--surface-secondary);
+}
+
+.coming-soon__title {
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.coming-soon__description {
+  margin: 0.7rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.coming-soon__actions {
+  margin-top: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.coming-soon__btn {
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0 0.9rem;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.coming-soon__btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.coming-soon__btn--primary:hover {
+  background: var(--accent-hover);
+}
+
+.coming-soon__btn--secondary {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.coming-soon__btn--secondary:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-hover);
+}
+
+@media (max-width: 640px) {
+  .coming-soon {
+    min-height: 58vh;
+    padding: 1.25rem 0.85rem;
+  }
+
+  .coming-soon__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .coming-soon__btn {
+    width: 100%;
+  }
+}

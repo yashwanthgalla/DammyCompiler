@@ -1,0 +1,183 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isCurrentUser(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isBootstrapAdminEmail() {
+      return isSignedIn()
+        && request.auth.token.email is string
+        && request.auth.token.email == '2300031794cseh1@gmail.com';
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.admin == true
+        || isBootstrapAdminEmail()
+        || exists(/databases/$(database)/documents/adminUsers/$(request.auth.uid))
+      );
+    }
+
+    function validProfilePayload(data) {
+      return data.displayName is string
+        && data.displayName.size() > 0
+        && data.displayName.size() <= 50
+        && data.username is string
+        && data.username.matches('^[a-z0-9_]{4,20}$')
+        && data.status is string
+        && data.status.size() <= 60
+        && data.about is string
+        && data.about.size() <= 500
+        && data.email is string
+        && data.email.size() <= 320;
+    }
+
+    function usernameReservedByRequester(username) {
+      return (
+        exists(/databases/$(database)/documents/reservedUsernames/$(username))
+        && get(/databases/$(database)/documents/reservedUsernames/$(username)).data.ownerId == request.auth.uid
+      ) || (
+        getAfter(/databases/$(database)/documents/reservedUsernames/$(username)).data.ownerId == request.auth.uid
+      );
+    }
+
+    match /workspaces/{workspaceId} {
+      allow create: if isSignedIn()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.name is string
+        && request.resource.data.files is map;
+
+      allow read, delete: if isSignedIn()
+        && resource.data.ownerId == request.auth.uid;
+
+      allow update: if isSignedIn()
+        && resource.data.ownerId == request.auth.uid
+        && request.resource.data.ownerId == resource.data.ownerId;
+    }
+
+    match /problemUploads/{problemId} {
+      allow create: if isSignedIn()
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.course is string
+        && request.resource.data.setName is string
+        && request.resource.data.statement is string
+        && request.resource.data.sampleInput is string
+        && request.resource.data.sampleOutput is string
+        && request.resource.data.languageVariants is list
+        && request.resource.data.testCases is list;
+
+      allow read: if isSignedIn()
+        && (resource.data.ownerId == request.auth.uid || isAdmin());
+
+      allow delete: if isSignedIn()
+        && resource.data.ownerId == request.auth.uid;
+
+      allow update: if isSignedIn()
+        && resource.data.ownerId == request.auth.uid
+        && request.resource.data.ownerId == resource.data.ownerId;
+    }
+
+    match /adminUsers/{userId} {
+      allow read: if isCurrentUser(userId) || isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /reservedUsernames/{username} {
+      allow read: if isSignedIn();
+
+      allow create: if isSignedIn()
+        && username.matches('^[a-z0-9_]{4,20}$')
+        && request.resource.data.ownerId == request.auth.uid
+        && !exists(/databases/$(database)/documents/reservedUsernames/$(username));
+
+      allow update, delete: if false;
+    }
+
+    match /profiles/{userId} {
+      allow read: if isCurrentUser(userId);
+
+      allow create: if isCurrentUser(userId)
+        && validProfilePayload(request.resource.data)
+        && request.resource.data.usernameLastChangedAt == request.time
+        && usernameReservedByRequester(request.resource.data.username);
+
+      allow update: if isCurrentUser(userId)
+        && validProfilePayload(request.resource.data)
+        && (
+          request.resource.data.username == resource.data.username
+            ? request.resource.data.usernameLastChangedAt == resource.data.usernameLastChangedAt
+            : (
+              (
+                !(resource.data.usernameLastChangedAt is timestamp)
+                || request.time >= resource.data.usernameLastChangedAt + duration.value(14, 'd')
+              )
+              && request.resource.data.usernameLastChangedAt == request.time
+              && usernameReservedByRequester(request.resource.data.username)
+            )
+        );
+
+      allow delete: if false;
+    }
+
+    // ═══════════ SUBMISSIONS ═══════════
+    match /submissions/{submissionId} {
+      // Any signed-in user can create a submission with their own userId
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.problemId is string
+        && request.resource.data.verdict is string;
+
+      // Anyone signed in can read all submissions (public like CodeChef)
+      allow read: if isSignedIn();
+
+      // No edits or deletes
+      allow update, delete: if false;
+    }
+
+    // ═══════════ USER PROGRESS ═══════════
+    match /userProgress/{userId}/problems/{problemId} {
+      allow read, write: if isCurrentUser(userId);
+    }
+
+    // ═══════════ USERS ═══════════
+    match /users/{userId} {
+      allow read: if isCurrentUser(userId) || isAdmin();
+      allow create: if isCurrentUser(userId);
+      allow update: if isCurrentUser(userId);
+      allow delete: if false;
+    }
+
+    // ═══════════ PROBLEMS ═══════════
+    match /problems/{problemId} {
+      // Everyone signed in can read problems
+      allow read: if isSignedIn();
+      // Only admins can create, update, delete problems
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ═══════════ COURSES ═══════════
+    match /courses/{courseId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ═══════════ CONTESTS ═══════════
+    match /contests/{contestId} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAdmin();
+      // Allow signed-in users to update (for leaderboard entries)
+      allow update: if isSignedIn();
+    }
+
+    // ═══════════ NOTES ═══════════
+    match /notes/{userId}/problems/{problemId} {
+      allow read, write: if isCurrentUser(userId);
+    }
+  }
+}
