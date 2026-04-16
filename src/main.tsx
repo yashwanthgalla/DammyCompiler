@@ -11,6 +11,9 @@ import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import './index.css'
 import App from './App.tsx'
 
+// Configure Monaco Editor for production
+loader.config({ monaco })
+
 self.MonacoEnvironment = {
   getWorker(_, label) {
     if (label === 'json') {
@@ -29,12 +32,13 @@ self.MonacoEnvironment = {
   },
 }
 
-loader.config({ monaco })
+const root = document.getElementById('root')
+if (!root) throw new Error('Root element not found')
 
-createRoot(document.getElementById('root')!).render(
+createRoot(root).render(
   <StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 )
