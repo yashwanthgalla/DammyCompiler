@@ -13,15 +13,6 @@ export default defineConfig({
   worker: {
     format: 'es',
   },
-  build: {
-    rollupOptions: {
-      output: {
-        assetFileNames: 'assets/[name]-[hash][extname]',
-        chunkFileNames: 'chunks/[name]-[hash].js',
-        entryFileNames: '[name]-[hash].js',
-      },
-    },
-  },
   server: {
     proxy: {
       '/api': {
