@@ -16,9 +16,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'monaco-editor': ['monaco-editor'],
-        },
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        entryFileNames: '[name]-[hash].js',
       },
     },
   },
